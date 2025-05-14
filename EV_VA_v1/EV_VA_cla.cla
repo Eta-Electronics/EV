@@ -1,0 +1,108 @@
+//#############################################################################
+//
+// FILE:   EV_VA_cla.cla
+//
+// Written by D. Kim
+// Date: 20250512
+// Purpose: EV_VA cla code
+//
+//#############################################################################
+
+// Included Files
+#include <EV_VA.h>
+#include <stdint.h>
+#include "board.h"
+#include "CLAmath.h"
+
+
+
+typedef struct
+{
+    float   LPF_Iin_in2, LPF_Iin_in1, LPF_Iin_in0, LPF_Iin_out2, LPF_Iin_out1, LPF_Iin_out0;
+}DSP_ADC_LPF_EV;
+
+DSP_ADC_LPF_EV ADC_LPF;
+
+//-----------------------------------------------------------------------------
+// Task 1
+// ADC, calculation, and monitoring
+//-----------------------------------------------------------------------------
+__attribute__((interrupt)) void Cla1Task1 ( void ) //30ns
+{
+    // ADC sensing
+//    ADC_LPF.Vin_sen   = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER3);
+
+//    ADC_LPF.LPF_Iin_in2  = ADC_LPF.LPF_Iin_in1;
+//    ADC_LPF.LPF_Iin_in1  = ADC_LPF.LPF_Iin_in0;
+//    ADC_LPF.LPF_Iin_in0  = ADC_readPPBResult(ADCBRESULT_BASE, ADC_PPB_NUMBER2);
+//    ADC_LPF.LPF_Iin_out2 = ADC_LPF.LPF_Iin_out1;
+//    ADC_LPF.LPF_Iin_out1 = ADC_LPF.LPF_Iin_out0;
+//    ADC_LPF.LPF_Iin_out0 = TX_adclpf_b0*ADC_LPF.LPF_Iin_in0 + TX_adclpf_b1*ADC_LPF.LPF_Iin_in1 + TX_adclpf_b2*ADC_LPF.LPF_Iin_in2
+//            +TX_adclpf_a1*ADC_LPF.LPF_Iin_out1 + TX_adclpf_a2*ADC_LPF.LPF_Iin_out2;
+
+    // Monitoring
+//    cla_monitor.I_lcc_mon   = IAC_N * ((dsp_adc_data.I_inv_sen * Vadc_V / Vadc * (IAC_R1 + IAC_R2) / IAC_R2) + IAC_D_calibration) / IAC_Rt / 1.414;
+}
+
+//-----------------------------------------------------------------------------
+// Task 2
+// Description: Description/steps here.
+//-----------------------------------------------------------------------------
+__attribute__((interrupt))  void Cla1Task2 ( void )
+{
+
+}
+
+//-----------------------------------------------------------------------------
+// Task 3
+// Description: Description/steps here.
+//-----------------------------------------------------------------------------
+__attribute__((interrupt))  void Cla1Task3 ( void )
+{
+
+}
+
+//-----------------------------------------------------------------------------
+// Task 4
+// Description: Description/steps here.
+//-----------------------------------------------------------------------------
+__attribute__((interrupt))  void Cla1Task4 ( void )
+{
+
+}
+
+//-----------------------------------------------------------------------------
+// Task 5 - Title Here
+// Description: Description/steps here.
+//-----------------------------------------------------------------------------
+__attribute__((interrupt))  void Cla1Task5 ( void )
+{
+
+}
+
+//-----------------------------------------------------------------------------
+// Task 6 - Title Here
+// Description: Description/steps here.
+//-----------------------------------------------------------------------------
+__attribute__((interrupt))  void Cla1Task6 ( void )
+{
+
+}
+
+//-----------------------------------------------------------------------------
+// Task 7 - Title Here
+// Description: Description/steps here.
+//-----------------------------------------------------------------------------
+__attribute__((interrupt))  void Cla1Task7 ( void )
+{
+
+}
+
+///-----------------------------------------------------------------------------
+// Task 8 - One Time Initialization Task
+// Description: This task will initialize the CLA global variables
+//-----------------------------------------------------------------------------
+__attribute__((interrupt))  void Cla1Task8 ( void )
+{
+
+}
