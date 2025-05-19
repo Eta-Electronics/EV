@@ -4,12 +4,12 @@
 	#define DATA		RAMM0 | RAMLS56
 #else
 	#define BEGIN		RAM_BEGIN
-	#define CODE		RAMM0 | RAMGS123 | RAMLS234
-	#define	DATA		RAMLS56
+	#define CODE		RAMM0 | RAMGS123 | RAMLS34
+	#define	DATA		RAMLS12
 #endif
 	#define STACK		RAMM1
 	#define	CLA			RAMLS0
-	#define CLA_DATA	RAMLS1
+	#define CLA_DATA	RAMLS12
 
 MEMORY
 {
@@ -22,8 +22,8 @@ MEMORY
    // RAMM1_RSVD       : origin = 0x000007F8, length = 0x00000008 /* Reserve and do not use for code as per the errata advisory "Memory: Prefetching Beyond Valid Memory" */
 
    RAMLS0           : origin = 0x00008000, length = 0x00000800
-   RAMLS1           : origin = 0x00008800, length = 0x00000800
-   RAMLS234         : origin = 0x00009000, length = 0x00001800
+   RAMLS12          : origin = 0x00008800, length = 0x00001000
+   RAMLS34			: origin = 0x00009800, length = 0x00001000
    RAMLS56          : origin = 0x0000A800, length = 0x00001000
    RAMLS7           : origin = 0x0000B800, length = 0x00000800
 

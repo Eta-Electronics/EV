@@ -16,12 +16,14 @@
 
 #include <stdio.h>
 
-//#ifdef FLASH
-//#pragma CODE_SECTION(INT_EV_CTRL_CLA1_ISR,".TI.ramfunc");
-//#endif
+#ifdef FLASH
+#pragma CODE_SECTION(INT_EV_CTRL_CLA1_ISR,".TI.ramfunc");
+#endif
 
 //void initPWM(void);
 //void initGPIO(void);
+
+uint16_t dacVal = 2048;
 
 // Main
 void main(void)
@@ -32,30 +34,46 @@ void main(void)
     Interrupt_initModule();
     Interrupt_initVectorTable();
     Board_init();
-    initVariables();
-    initPWM();
-    initGPIO();
-    InitCla();
-    control_initVariables();
+    Init_variables();
+    Control_initVariables();
+    Init_PWM();
+    Init_GPIO();
+    Init_cla();
 
     EINT;
     ERTM;
 
      while(1)
     {
+//         DAC_setShadowValue(EV_DACA_BASE, dacVal);
+//         DEVICE_DELAY_US(2);
     }
 }
 
 // System loop
 __interrupt void INT_EV_CTRL_CLA1_ISR(void)
 {
+    DAC_setShadowValue(EV_DACA_BASE, dacVal);
+    DEVICE_DELAY_US(2);
+    test_adc = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0);
 
-//    CLA_forceTasks(TX_CTRL_CLA_BASE, CLA_TASKFLAG_1);
+    GPIO_togglePin(EV_LED1);
+    CLA_forceTasks(EV_CTRL_CLA_BASE, CLA_TASKFLAG_1);
     asm(" IACK #0x0001");
 
+    // Soft starter
+//    Softstart();
+
+    // Error calculation
+//    eta_dsp.dsp_ctrl_data.v_err = eta_dsp.dsp_ctrl_data.v_command - dsp_adc_data.Vo_sen;
+//    eta_dsp.dsp_ctrl_data.i_err = eta_dsp.dsp_ctrl_data.i_command - dsp_adc_data.Io_sen;
+
+    // Digital compensation
+//    Control_loop();
 
     // Updating PWM
-//    EPWM_setCounterCompareValue(TX_1_PH_BASE, EPWM_COUNTER_COMPARE_A, eta_dsp.dsp_ctrl_data.vi_ctrl_DCL);
+    EPWM_setTimeBasePeriod(EV_PWM_B_main_BASE, SW_PRD);
+    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, duty_test * SW_PRD);  // Open loop test
 
 
     Interrupt_clearACKGroup(INT_EV_CTRL_CLA1_INTERRUPT_ACK_GROUP);

@@ -14,14 +14,15 @@
 #include "board.h"
 #include "CLAmath.h"
 
-
-
+// Filter parameters
 typedef struct
 {
-    float   LPF_Iin_in2, LPF_Iin_in1, LPF_Iin_in0, LPF_Iin_out2, LPF_Iin_out1, LPF_Iin_out0;
-}DSP_ADC_LPF_EV;
+    float   LPF_IL1_i2, LPF_IL1_i1, LPF_IL1_i0, LPF_IL1_o2, LPF_IL1_o1, LPF_IL1_o0;
+    float   LPF_IL2_i2, LPF_IL2_i1, LPF_IL2_i0, LPF_IL2_o2, LPF_IL2_o1, LPF_IL2_o0;
+    float   LPF_Io_i2, LPF_Io_i1, LPF_Io_i0, LPF_Io_o2, LPF_Io_o1, LPF_Io_o0;
+}DSP_ADC_LPF;
 
-DSP_ADC_LPF_EV ADC_LPF;
+DSP_ADC_LPF ADC_LPF;
 
 //-----------------------------------------------------------------------------
 // Task 1
@@ -30,7 +31,20 @@ DSP_ADC_LPF_EV ADC_LPF;
 __attribute__((interrupt)) void Cla1Task1 ( void ) //30ns
 {
     // ADC sensing
-//    ADC_LPF.Vin_sen   = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER3);
+    DSP_ADC_RAW.IL1_sen = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0);
+    DSP_ADC_RAW.IL2_sen = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1);
+    DSP_ADC_RAW.Io_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2);
+    DSP_ADC_RAW.Vo_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER3);
+    DSP_ADC_RAW.Va_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER4);
+    DSP_ADC_RAW.Vb_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER5);
+    DSP_ADC_RAW.Temp_Q1_sen     = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER6);
+    DSP_ADC_RAW.Temp_Q2_sen     = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER7);
+    DSP_ADC_RAW.Temp_Qs1_sen    = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER8);
+    DSP_ADC_RAW.Temp_Qs2_sen    = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER9);
+    DSP_ADC_RAW.Temp_L_sen      = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER10);
+    DSP_ADC_RAW.Temp_BDG_D_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER11);
+    DSP_ADC_RAW.DACA_sen = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER0);
+    DSP_ADC_RAW.DACB_sen = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER1);
 
 //    ADC_LPF.LPF_Iin_in2  = ADC_LPF.LPF_Iin_in1;
 //    ADC_LPF.LPF_Iin_in1  = ADC_LPF.LPF_Iin_in0;
@@ -41,7 +55,20 @@ __attribute__((interrupt)) void Cla1Task1 ( void ) //30ns
 //            +TX_adclpf_a1*ADC_LPF.LPF_Iin_out1 + TX_adclpf_a2*ADC_LPF.LPF_Iin_out2;
 
     // Monitoring
-//    cla_monitor.I_lcc_mon   = IAC_N * ((dsp_adc_data.I_inv_sen * Vadc_V / Vadc * (IAC_R1 + IAC_R2) / IAC_R2) + IAC_D_calibration) / IAC_Rt / 1.414;
+    DSP_ADC_MON.IL1_mon = (DSP_ADC_RAW.IL1_sen * I_max * Vadc_V) / (I_sen_max * Vadc);
+    DSP_ADC_MON.IL2_mon = (DSP_ADC_RAW.IL2_sen * I_max * Vadc_V) / (I_sen_max * Vadc);
+    DSP_ADC_MON.Io_mon  = (DSP_ADC_RAW.Io_sen * I_max * Vadc_V) / (I_sen_max * Vadc);
+    DSP_ADC_MON.Vo_mon  = (DSP_ADC_RAW.Vo_sen * Vo_max * Vadc_V) / (Vo_sen_max * Vadc);
+    DSP_ADC_MON.Va_mon  = (DSP_ADC_RAW.Va_sen * Vi_max * Vadc_V) / (Vi_sen_max * Vadc);
+    DSP_ADC_MON.Vb_mon  = (DSP_ADC_RAW.Vb_sen * Vi_max * Vadc_V) / (Vi_sen_max * Vadc);
+    DSP_ADC_MON.Temp_Q1_mon     = ((1 / (1 / T0 + 1 / beta * CLAln((Vadc / DSP_ADC_RAW.Temp_Q1_sen - 1)))) - KT);
+    DSP_ADC_MON.Temp_Q2_mon     = ((1 / (1 / T0 + 1 / beta * CLAln((Vadc / DSP_ADC_RAW.Temp_Q2_sen - 1)))) - KT);
+    DSP_ADC_MON.Temp_Qs1_mon    = ((1 / (1 / T0 + 1 / beta * CLAln((Vadc / DSP_ADC_RAW.Temp_Qs1_sen - 1)))) - KT);
+    DSP_ADC_MON.Temp_Qs2_mon    = ((1 / (1 / T0 + 1 / beta * CLAln((Vadc / DSP_ADC_RAW.Temp_Qs2_sen - 1)))) - KT);
+    DSP_ADC_MON.Temp_L_mon      = ((1 / (1 / T0 + 1 / beta * CLAln((Vadc / DSP_ADC_RAW.Temp_L_sen - 1)))) - KT);
+    DSP_ADC_MON.Temp_BDG_D_mon  = ((1 / (1 / T0 + 1 / beta * CLAln((Vadc / DSP_ADC_RAW.Temp_BDG_D_sen - 1)))) - KT);
+    DSP_ADC_MON.DACA_mon        = (DSP_ADC_RAW.DACA_sen * Vadc_V) / Vadc;
+    DSP_ADC_MON.DACB_mon        = (DSP_ADC_RAW.DACB_sen * Vadc_V) / Vadc;
 }
 
 //-----------------------------------------------------------------------------
