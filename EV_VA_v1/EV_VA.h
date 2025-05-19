@@ -29,7 +29,11 @@ void Softstart(void);
 void Control_loop(void);
 
 extern volatile float32_t   duty_test;
+extern volatile float32_t   test_dac_real_value;
+extern volatile float32_t   test_dac;
 extern volatile float32_t   test_adc;
+extern volatile float32_t   test_adc_real_value1;
+extern volatile float32_t   test_adc_real_value2;
 
 // Time variables
 #define SW_FREQ             ((float32_t) DSP.DSP_command.SW_FREQ_SET * 1000)

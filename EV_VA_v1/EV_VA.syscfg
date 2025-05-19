@@ -133,8 +133,8 @@ adc3.soc1Name              = "SOC";
 adc3.soc0SampleWindow      = 84;
 adc3.enabledSOCs           = ["ADC_SOC_NUMBER0"];
 
-asysctl.analogReferenceVoltage  = "1P65";
 asysctl.enableTemperatureSensor = true;
+asysctl.analogReferenceVoltage  = "1P65";
 
 cla1.cpuint_CLA_TASK_3          = false;
 cla1.cpuint_CLA_TASK_4          = false;

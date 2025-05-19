@@ -23,8 +23,6 @@
 //void initPWM(void);
 //void initGPIO(void);
 
-uint16_t dacVal = 2048;
-
 // Main
 void main(void)
 {///////
@@ -53,9 +51,11 @@ void main(void)
 // System loop
 __interrupt void INT_EV_CTRL_CLA1_ISR(void)
 {
-    DAC_setShadowValue(EV_DACA_BASE, dacVal);
-    DEVICE_DELAY_US(2);
-    test_adc = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0);
+    test_dac = test_dac_real_value * Vadc / Vadc_V;
+    DAC_setShadowValue(EV_DACA_BASE, test_dac);
+    test_adc = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0) + 0.3 * Vadc / Vadc_V;
+    test_adc_real_value1 = test_adc * 3.0 / Vadc;
+    test_adc_real_value2 = test_adc * Vadc_V / Vadc;
 
     GPIO_togglePin(EV_LED1);
     CLA_forceTasks(EV_CTRL_CLA_BASE, CLA_TASKFLAG_1);

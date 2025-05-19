@@ -23,7 +23,11 @@ DSP_ADC_MON_DATA DSP_ADC_MON;
 DSP_DATA DSP;
 
 volatile float32_t  duty_test = 0.5f;
-volatile float32_t test_adc = 0.0f;
+volatile float32_t test_dac_real_value = 0.0f;
+volatile float32_t test_dac;
+volatile float32_t test_adc;
+volatile float32_t test_adc_real_value1;
+volatile float32_t test_adc_real_value2;
 
 // Time variables
 //volatile float32_t  DTP_SET = 0.15;
@@ -145,7 +149,7 @@ void OTP_check(void)
             DSP.DSP_protection.EV_Qm_OTP_flag = 1;
         }
         if((DSP_ADC_MON.Temp_Qs1_mon >= DSP.DSP_protection.EV_OTP)
-            || (DSP_ADC_MON.Temp_Temp_Qs2_monQ2_mon >= DSP.DSP_protection.EV_OTP))
+            || (DSP_ADC_MON.Temp_Qs2_mon >= DSP.DSP_protection.EV_OTP))
         {
             DSP.DSP_protection.EV_Qs_OTP_flag = 1;
         }
@@ -153,6 +157,11 @@ void OTP_check(void)
         {
             DSP.DSP_protection.EV_L_OTP_flag = 1;
         }
+        if(DSP_ADC_MON.Temp_BDG_D_mon >= DSP.DSP_protection.EV_OTP)
+        {
+            DSP.DSP_protection.EV_BDG_OTP_flag = 1;
+        }
+        // DSP 온도 OTP 추가 예정
     }
 }
 
