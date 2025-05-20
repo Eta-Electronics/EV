@@ -31,18 +31,18 @@ DSP_ADC_LPF ADC_LPF;
 __attribute__((interrupt)) void Cla1Task1 ( void ) //30ns
 {
     // ADC sensing
-    DSP_ADC_RAW.IL1_sen = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0);
-    DSP_ADC_RAW.IL2_sen = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1);
-    DSP_ADC_RAW.Io_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2);
-    DSP_ADC_RAW.Vo_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER3);
+    DSP_ADC_RAW.IL1_sen = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER0) + ADC_raw_cal;
+    DSP_ADC_RAW.IL2_sen = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER1) + ADC_raw_cal;
+    DSP_ADC_RAW.Io_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER2) + ADC_raw_cal;
+    DSP_ADC_RAW.Vo_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER3) + ADC_raw_cal;
     DSP_ADC_RAW.Va_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER4);
-    DSP_ADC_RAW.Vb_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER5);
-    DSP_ADC_RAW.Temp_Q1_sen     = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER6);
-    DSP_ADC_RAW.Temp_Q2_sen     = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER7);
-    DSP_ADC_RAW.Temp_Qs1_sen    = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER8);
-    DSP_ADC_RAW.Temp_Qs2_sen    = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER9);
-    DSP_ADC_RAW.Temp_L_sen      = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER10);
-    DSP_ADC_RAW.Temp_BDG_D_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER11);
+    DSP_ADC_RAW.Vb_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER5) + ADC_raw_cal;
+    DSP_ADC_RAW.Temp_Q1_sen     = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER6) + ADC_raw_cal;
+    DSP_ADC_RAW.Temp_Q2_sen     = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER7) + ADC_raw_cal;
+    DSP_ADC_RAW.Temp_Qs1_sen    = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER8) + ADC_raw_cal;
+    DSP_ADC_RAW.Temp_Qs2_sen    = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER9) + ADC_raw_cal;
+    DSP_ADC_RAW.Temp_L_sen      = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER10) + ADC_raw_cal;
+    DSP_ADC_RAW.Temp_BDG_D_sen  = ADC_readResult(ADCARESULT_BASE, ADC_SOC_NUMBER11) + ADC_raw_cal;
     DSP_ADC_RAW.DACA_sen = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER0);
     DSP_ADC_RAW.DACB_sen = ADC_readResult(ADCBRESULT_BASE, ADC_SOC_NUMBER1);
 

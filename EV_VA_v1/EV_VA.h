@@ -48,7 +48,9 @@ extern volatile float32_t   test_adc_real_value2;
 
 // ADC parameters
 #define Vadc                ((float32_t) 4096)
-#define Vadc_V              ((float32_t) 3.0)
+#define Vadc_V              ((float32_t) 3.3)
+#define Vadc_V_ext          ((float32_t) 3.0)
+#define ADC_raw_cal         ((float32_t) (Vadc_V - Vadc_V_ext) * Vadc / Vadc_V_ext)
 
 #define R1_Vi               ((float32_t) 5.0)
 #define R2_Vi               ((float32_t) 1000.0 + 1000.0 + 1000.0)
@@ -56,16 +58,18 @@ extern volatile float32_t   test_adc_real_value2;
 #define R2_Vo               ((float32_t) 750.0 + 750.0 + 750.0)
 
 #define Vi_max              ((float32_t) 1202.0)
-#define Vi_sen_max          ((float32_t) Vi_max * R1_Vi / (R1_Vi + R2_Vi))
+#define Vi_gain             ((float32_t) 1.5)
+#define Vi_sen_max          ((float32_t) Vi_max * Vi_gain * R1_Vi / (R1_Vi + R2_Vi))
 
 #define Vo_max              ((float32_t) 902.0)
-#define Vo_sen_max          ((float32_t) Vo_max * R1_Vo / (R1_Vo + R2_Vo))
-#define Vo_adc              ((float32_t) Vo_sen_max * Vadc / Vadc_V)
+#define Vo_gain             ((float32_t) 1.5)
+#define Vo_sen_max          ((float32_t) Vo_max * Vo_gain * R1_Vo / (R1_Vo + R2_Vo))
+#define Vo_adc              ((float32_t) Vo_sen_max * Vadc / Vadc_V_ext)
 #define Vo_set              ((float32_t) Vo_adc * DSP.DSP_command.Vo / Vo_max)
 
 #define I_max               ((float32_t) 50.0)
 #define I_sen_max           ((float32_t) I_max * 0.04)
-#define I_adc               ((float32_t) I_sen_max * Vadc / Vadc_V)
+#define I_adc               ((float32_t) I_sen_max * Vadc / Vadc_V_ext)
 #define Ii_set              ((float32_t) I_adc / I_max * DSP.DSP_command.Po / DSP.DSP_command.Vi / DSP.DSP_command.eff * DSP.DSP_command.Calibration)
 
 // Temperature parameters
@@ -86,9 +90,9 @@ extern volatile float32_t   test_adc_real_value2;
 //#define FET_trr             ((float32_t) 184 * 0.000000001)
 
 // Protection
-#define Vo_OVP_ADC          ((float32_t) DSP.DSP_protection.Vo_OVP * Vo_sen_max / Vo_max * Vadc / Vadc_V)
-#define IL_OCP_ADC          ((float32_t) DSP.DSP_protection.IL_OCP * I_sen_max / I_max * Vadc / Vadc_V)
-#define Io_OCP_ADC          ((float32_t) DSP.DSP_protection.Io_OCP * I_sen_max / I_max * Vadc / Vadc_V)
+#define Vo_OVP_ADC          ((float32_t) DSP.DSP_protection.Vo_OVP * Vo_sen_max / Vo_max * Vadc / Vadc_V_ext)
+#define IL_OCP_ADC          ((float32_t) DSP.DSP_protection.IL_OCP * I_sen_max / I_max * Vadc / Vadc_V_ext)
+#define Io_OCP_ADC          ((float32_t) DSP.DSP_protection.Io_OCP * I_sen_max / I_max * Vadc / Vadc_V_ext)
 
 
 // Control variables
