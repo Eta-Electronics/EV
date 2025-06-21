@@ -64,12 +64,12 @@ extern volatile float32_t   test_adc_real_value2;
 #define Vo_max              ((float32_t) 902.0)
 #define Vo_gain             ((float32_t) 1.5)
 #define Vo_sen_max          ((float32_t) Vo_max * Vo_gain * R1_Vo / (R1_Vo + R2_Vo))
-#define Vo_adc              ((float32_t) Vo_sen_max * Vadc / Vadc_V_ext)
+#define Vo_adc              ((float32_t) Vo_sen_max * Vadc / Vadc_V)
 #define Vo_set              ((float32_t) Vo_adc * DSP.DSP_command.Vo / Vo_max)
 
 #define I_max               ((float32_t) 50.0)
 #define I_sen_max           ((float32_t) I_max * 0.04)
-#define I_adc               ((float32_t) I_sen_max * Vadc / Vadc_V_ext)
+#define I_adc               ((float32_t) I_sen_max * Vadc / Vadc_V)
 #define Ii_set              ((float32_t) I_adc / I_max * DSP.DSP_command.Po / DSP.DSP_command.Vi / DSP.DSP_command.eff * DSP.DSP_command.Calibration)
 
 // Temperature parameters
@@ -90,9 +90,9 @@ extern volatile float32_t   test_adc_real_value2;
 //#define FET_trr             ((float32_t) 184 * 0.000000001)
 
 // Protection
-#define Vo_OVP_ADC          ((float32_t) DSP.DSP_protection.Vo_OVP * Vo_sen_max / Vo_max * Vadc / Vadc_V_ext)
-#define IL_OCP_ADC          ((float32_t) DSP.DSP_protection.IL_OCP * I_sen_max / I_max * Vadc / Vadc_V_ext)
-#define Io_OCP_ADC          ((float32_t) DSP.DSP_protection.Io_OCP * I_sen_max / I_max * Vadc / Vadc_V_ext)
+#define Vo_OVP_ADC          ((float32_t) DSP.DSP_protection.Vo_OVP * Vo_sen_max / Vo_max * Vadc / Vadc_V)
+#define IL_OCP_ADC          ((float32_t) DSP.DSP_protection.IL_OCP * I_sen_max / I_max * Vadc / Vadc_V)
+#define Io_OCP_ADC          ((float32_t) DSP.DSP_protection.Io_OCP * I_sen_max / I_max * Vadc / Vadc_V)
 
 
 // Control variables
@@ -131,7 +131,7 @@ extern volatile float32_t   test_adc_real_value2;
 //#define D_min               ((float32_t) Vo_min / Vi_max)
 
 #define EV_ctrlMax          ((float32_t) 0.5 * SW_PRD)
-#define EV_ctrlMin          ((float32_t) 0)
+#define EV_ctrlMin          ((float32_t) -10.0)
 
 //CLA C Tasks defined in Cla1Tasks_C.cla
 __attribute__((interrupt))  void Cla1Task1();
@@ -169,7 +169,7 @@ typedef struct
 typedef struct
 {
     float   v_command, i_command, v_err, i_err;
-    float   v_ctrl, i_ctrl, vi_ctrl;
+    float   v_ctrl, v_ctrl_pc, i_ctrl, i_ctrl_pi, vi_ctrl;
     float   gain_gv, gain_gc;
 }DSP_ctrl_DATA;
 

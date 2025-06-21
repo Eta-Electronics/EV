@@ -167,37 +167,37 @@ void OTP_check(void)
 
 void Softstart(void)
 {
-//    // Volt.
-//    if(fabsf(Vo_set - eta_dsp.dsp_ctrl_data.v_command) > 0.05f)
-//    {
-//        if(Vo_set > eta_dsp.dsp_ctrl_data.v_command)
-//        {
-//            eta_dsp.dsp_ctrl_data.v_command = eta_dsp.dsp_ctrl_data.v_command
-//                                              + 0.02f;
-//        }
-//        else
-//        {
-//            eta_dsp.dsp_ctrl_data.v_command = eta_dsp.dsp_ctrl_data.v_command
-//                                              - 0.02f;
-//        }
-//    }
-//    else if(fabsf(Vo_set - eta_dsp.dsp_ctrl_data.v_command) > 0.005f)
-//    {
-//        if(Vo_set > eta_dsp.dsp_ctrl_data.v_command)
-//        {
-//            eta_dsp.dsp_ctrl_data.v_command = eta_dsp.dsp_ctrl_data.v_command
-//                                              + 0.002f;
-//        }
-//        else
-//        {
-//            eta_dsp.dsp_ctrl_data.v_command = eta_dsp.dsp_ctrl_data.v_command
-//                                              - 0.002f;
-//        }
-//    }
-//    else
-//    {
-//        eta_dsp.dsp_ctrl_data.v_command = Vo_set;
-//    }
+    // Volt.
+    if(fabsf(Vo_set - DSP.DSP_ctrl.v_command) > 0.05f)
+    {
+        if(Vo_set > DSP.DSP_ctrl.v_command)
+        {
+            DSP.DSP_ctrl.v_command = DSP.DSP_ctrl.v_command
+                                     + 0.02f;
+        }
+        else
+        {
+            DSP.DSP_ctrl.v_command = DSP.DSP_ctrl.v_command
+                                     - 0.02f;
+        }
+    }
+    else if(fabsf(Vo_set - DSP.DSP_ctrl.v_command) > 0.005f)
+    {
+        if(Vo_set > DSP.DSP_ctrl.v_command)
+        {
+            DSP.DSP_ctrl.v_command = DSP.DSP_ctrl.v_command
+                                     + 0.002f;
+        }
+        else
+        {
+            DSP.DSP_ctrl.v_command = DSP.DSP_ctrl.v_command
+                                     - 0.002f;
+        }
+    }
+    else
+    {
+        DSP.DSP_ctrl.v_command = Vo_set;
+    }
 //
 //    // Current
 //    if(fabsf(Io_set - eta_dsp.dsp_ctrl_data.i_command) > 0.05f)
@@ -236,35 +236,20 @@ void Softstart(void)
 void Control_loop(void)
 {
 //    // DCL_DF13 compensation
-//    eta_dsp.dsp_ctrl_data.v_ctrl_DCL = DCL_runDF13_C5(&Tx_gv,
-//                                                      eta_dsp.dsp_ctrl_data.v_err,
-//                                                      eta_dsp.dsp_ctrl_data.v_ctrl_pc);
-//    if(eta_dsp.dsp_ctrl_data.v_ctrl_DCL > TX_ctrlMax)
-//    {
-//        eta_dsp.dsp_ctrl_data.v_ctrl_DCL = TX_ctrlMax;
-//    }
-//    else if(eta_dsp.dsp_ctrl_data.v_ctrl_DCL < -10.0)
-//    {
-//        eta_dsp.dsp_ctrl_data.v_ctrl_DCL = -10.0;
-//    }
-//    eta_dsp.dsp_ctrl_data.v_ctrl_pc = DCL_runDF13_C6(&Tx_gv,
-//                                                     eta_dsp.dsp_ctrl_data.v_err,
-//                                                     eta_dsp.dsp_ctrl_data.v_ctrl_DCL);
-//
-//    eta_dsp.dsp_ctrl_data.i_ctrl_DCL = DCL_runDF13_C5(&Tx_gc,
-//                                                      eta_dsp.dsp_ctrl_data.i_err,
-//                                                      eta_dsp.dsp_ctrl_data.i_ctrl_pc);
-//    if(eta_dsp.dsp_ctrl_data.i_ctrl_DCL > TX_ctrlMax)
-//    {
-//        eta_dsp.dsp_ctrl_data.i_ctrl_DCL = TX_ctrlMax;
-//    }
-//    else if(eta_dsp.dsp_ctrl_data.i_ctrl_DCL < -10.0)
-//    {
-//        eta_dsp.dsp_ctrl_data.i_ctrl_DCL = -10.0;
-//    }
-//    eta_dsp.dsp_ctrl_data.i_ctrl_pc = DCL_runDF13_C6(&Tx_gc,
-//                                                     eta_dsp.dsp_ctrl_data.i_err,
-//                                                     eta_dsp.dsp_ctrl_data.i_ctrl_DCL);
+    DSP.DSP_ctrl.v_ctrl = DCL_runDF13_C5(&EV_gv,
+                                         DSP.DSP_ctrl.v_err,
+                                         DSP.DSP_ctrl.v_ctrl_pc);
+    if(DSP.DSP_ctrl.v_ctrl > EV_ctrlMax)
+    {
+        DSP.DSP_ctrl.v_ctrl = EV_ctrlMax;
+    }
+    else if(DSP.DSP_ctrl.v_ctrl < EV_ctrlMin)
+    {
+        DSP.DSP_ctrl.v_ctrl = EV_ctrlMin;
+    }
+    DSP.DSP_ctrl.v_ctrl_pc = DCL_runDF13_C6(&EV_gv,
+                                            DSP.DSP_ctrl.v_err,
+                                            DSP.DSP_ctrl.v_ctrl);
 //
 //    if(eta_dsp.dsp_ctrl_data.i_ctrl_DCL >= eta_dsp.dsp_ctrl_data.v_ctrl_DCL)
 //    {
