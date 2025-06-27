@@ -54,7 +54,7 @@ __interrupt void INT_EV_CTRL_CLA1_ISR(void)
 
     //#############################################################################
     // DAC test
-    test_dac = test_dac_real_value * Vadc / Vadc_V;
+    test_dac = test_dac_real_value * Vadc / Vadc_V; // 2.674
     DAC_setShadowValue(EV_DACA_BASE, test_dac);
     //#############################################################################
 

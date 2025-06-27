@@ -130,7 +130,7 @@ extern volatile float32_t   test_adc_real_value2;
 //#define D_max               ((float32_t) Vo_max / Vi_min)
 //#define D_min               ((float32_t) Vo_min / Vi_max)
 
-#define EV_ctrlMax          ((float32_t) 0.5 * SW_PRD)
+#define EV_ctrlMax          ((float32_t) 0.6 * SW_PRD)
 #define EV_ctrlMin          ((float32_t) -10.0)
 
 //CLA C Tasks defined in Cla1Tasks_C.cla
