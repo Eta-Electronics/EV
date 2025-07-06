@@ -1,0 +1,82 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "F28003x" --part "F28003x_100PZ" --package "100PZ" --context "system" --product "C2000WARE@5.04.00.00"
+ * @v2CliArgs --device "TMS320F280039C" --package "100PZ" --context "system" --product "C2000WARE@5.04.00.00"
+ * @versions {"tool":"1.21.0+3721"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const ecap             = scripting.addModule("/driverlib/ecap.js", {}, false);
+const ecap1            = ecap.addInstance();
+const epwm             = scripting.addModule("/driverlib/epwm.js", {}, false);
+const epwm1            = epwm.addInstance();
+const epwm2            = epwm.addInstance();
+const gpio             = scripting.addModule("/driverlib/gpio.js", {}, false);
+const gpio1            = gpio.addInstance();
+const inputxbar        = scripting.addModule("/driverlib/inputxbar.js", {}, false);
+const inputxbar1       = inputxbar.addInstance();
+const inputxbar_input  = scripting.addModule("/driverlib/inputxbar_input.js");
+const inputxbar_input1 = inputxbar_input.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+ecap1.enableInterrupt         = true;
+ecap1.ecapInput               = "ECAP_INPUT_INPUTXBAR7";
+ecap1.registerInterrupts      = true;
+ecap1.$name                   = "ECAP1_TEST";
+ecap1.captureMode             = "ECAP_ONE_SHOT_CAPTURE_MODE";
+ecap1.eventOnePolarity        = "ECAP_EVNT_FALLING_EDGE";
+ecap1.eventThreePolarity      = "ECAP_EVNT_FALLING_EDGE";
+ecap1.counterResetOnEvent     = ["ECAP_EVENT_1","ECAP_EVENT_2","ECAP_EVENT_3","ECAP_EVENT_4"];
+ecap1.enableLoadCounter       = true;
+ecap1.interruptSourceCapture  = ["ECAP_ISR_SOURCE_CAPTURE_EVENT_1"];
+ecap1.ecapInt.enableInterrupt = true;
+
+epwm1.epwmTimebase_emulationMode                               = "EPWM_EMULATION_FREE_RUN";
+epwm1.epwmTimebase_hsClockDiv                                  = "EPWM_HSCLOCK_DIVIDER_1";
+epwm1.epwmTimebase_period                                      = 1411;
+epwm1.epwmTimebase_counterMode                                 = "EPWM_COUNTER_MODE_UP";
+epwm1.epwmTimebase_syncInPulseSource                           = "EPWM_SYNC_IN_PULSE_SRC_DISABLE";
+epwm1.epwmCounterCompare_cmpA                                  = 141;
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_ZERO    = "EPWM_AQ_OUTPUT_HIGH";
+epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_LOW";
+epwm1.$name                                                    = "EPWM1_TEST";
+
+epwm2.epwmTimebase_emulationMode                              = "EPWM_EMULATION_FREE_RUN";
+epwm2.epwmTimebase_hsClockDiv                                 = "EPWM_HSCLOCK_DIVIDER_1";
+epwm2.epwmTimebase_period                                     = 1000;
+epwm2.epwmTimebase_counterMode                                = "EPWM_COUNTER_MODE_UP";
+epwm2.epwmTimebase_phaseEnable                                = true;
+epwm2.epwmTimebase_syncInPulseSource                          = "EPWM_SYNC_IN_PULSE_SRC_SYNCOUT_ECAP1";
+epwm2.epwmCounterCompare_cmpA                                 = 847;
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_ZERO   = "EPWM_AQ_OUTPUT_HIGH";
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_PERIOD = "EPWM_AQ_OUTPUT_LOW";
+epwm2.$name                                                   = "EPWM2_TEST";
+epwm2.epwmTimebase_periodLoadEvent                            = "EPWM_SHADOW_LOAD_MODE_SYNC";
+epwm2.epwmTimebase_periodLink                                 = "EPWM_LINK_WITH_EPWM_1";
+epwm2.epwm.$assign                                            = "EPWM2";
+
+gpio1.qualMode        = "GPIO_QUAL_ASYNC";
+gpio1.$name           = "GPIO_TEST1";
+gpio1.gpioPin.$assign = "GPIO16";
+
+inputxbar1.$name = "myINPUTXBAR0";
+
+inputxbar_input1.$name          = "myINPUTXBARINPUT0";
+inputxbar_input1.inputxbarInput = "XBAR_INPUT7";
+inputxbar_input1.inputxbarGpio  = "GPIO16";
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+epwm1.epwm.$suggestSolution           = "EPWM1";
+epwm1.epwm.epwm_aPin.$suggestSolution = "GPIO0";
+epwm1.epwm.epwm_bPin.$suggestSolution = "GPIO1";
+epwm2.epwm.epwm_aPin.$suggestSolution = "GPIO2";
+epwm2.epwm.epwm_bPin.$suggestSolution = "GPIO3";

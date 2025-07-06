@@ -54,8 +54,8 @@ __interrupt void INT_EV_CTRL_CLA1_ISR(void)
 
     //#############################################################################
     // DAC test
-    test_dac = test_dac_real_value * Vadc / Vadc_V; // 2.674
-    DAC_setShadowValue(EV_DACA_BASE, test_dac);
+//    test_dac = test_dac_real_value * Vadc / Vadc_V; // 2.674
+//    DAC_setShadowValue(EV_DACA_BASE, test_dac);
     //#############################################################################
 
 //    GPIO_togglePin(EV_LED1);
@@ -73,8 +73,8 @@ __interrupt void INT_EV_CTRL_CLA1_ISR(void)
     Control_loop();
 
     // Updating PWM
-//    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, duty_test * SW_PRD);  // Open loop test
-    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
+    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, duty_test * SW_PRD);  // Open loop test
+//    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
 //    GPIO_togglePin(TEST1);
 //    GPIO_writePin(TEST1, 0);
 
