@@ -166,7 +166,7 @@ void OTP_check(void)
         {
             DSP.DSP_protection.EV_BDG_OTP_flag = 1;
         }
-        // DSP �삩�룄 OTP 異붽� �삁�젙
+        // DSP 온도 OTP 추가 예정
     }
 }
 
