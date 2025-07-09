@@ -28,7 +28,8 @@ void OTP_check(void);
 void Softstart(void);
 void Control_loop(void);
 
-extern volatile float32_t   duty_test;
+extern volatile float32_t   duty_limit;
+extern volatile float32_t   phase_shift_test;
 extern volatile float32_t   test_dac_real_value;
 extern volatile float32_t   test_dac;
 extern volatile float32_t   test_adc;
@@ -96,21 +97,29 @@ extern volatile float32_t   test_adc_real_value2;
 
 
 // Control variables
-#define EV_gv_b0    ((float32_t)   8.011535 * DSP.DSP_ctrl.gain_gv)
-#define EV_gv_b1    ((float32_t)  -7.547092 * DSP.DSP_ctrl.gain_gv)
-#define EV_gv_b2    ((float32_t)  -8.004804 * DSP.DSP_ctrl.gain_gv)
-#define EV_gv_b3    ((float32_t)   7.553824 * DSP.DSP_ctrl.gain_gv)
-#define EV_gv_a1    ((float32_t)   -0.705606)
-#define EV_gv_a2    ((float32_t)   0.978333)
-#define EV_gv_a3    ((float32_t)   0.727273)
+//#define EV_gv_b0    ((float32_t)   8.011535 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_b1    ((float32_t)  -7.547092 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_b2    ((float32_t)  -8.004804 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_b3    ((float32_t)   7.553824 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_a1    ((float32_t)   -0.705606)
+//#define EV_gv_a2    ((float32_t)   0.978333)
+//#define EV_gv_a3    ((float32_t)   0.727273)
 
-//#define EV_gv_b0    ((float32_t)  2.816546 * gain_gv)
-//#define EV_gv_b1    ((float32_t) -2.613869 * gain_gv)
-//#define EV_gv_b2    ((float32_t) -2.813550 * gain_gv)
-//#define EV_gv_b3    ((float32_t)  2.616865 * gain_gv)
-//#define EV_gv_a1    ((float32_t) -0.397391)
-//#define EV_gv_a2    ((float32_t)  0.942195)
-//#define EV_gv_a3    ((float32_t)  0.455196)
+//#define EV_gv_b0    ((float32_t)   0.405267 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_b1    ((float32_t)  -0.232542 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_b2    ((float32_t)  -0.388531 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_b3    ((float32_t)   0.249278 * DSP.DSP_ctrl.gain_gv)
+//#define EV_gv_a1    ((float32_t)  -0.533544)
+//#define EV_gv_a2    ((float32_t)   0.947317)
+//#define EV_gv_a3    ((float32_t)   0.586227)
+
+#define EV_gv_b0    ((float32_t)  2.816546 * DSP.DSP_ctrl.gain_gv)
+#define EV_gv_b1    ((float32_t) -2.613869 * DSP.DSP_ctrl.gain_gv)
+#define EV_gv_b2    ((float32_t) -2.813550 * DSP.DSP_ctrl.gain_gv)
+#define EV_gv_b3    ((float32_t)  2.616865 * DSP.DSP_ctrl.gain_gv)
+#define EV_gv_a1    ((float32_t) -0.397391)
+#define EV_gv_a2    ((float32_t)  0.942195)
+#define EV_gv_a3    ((float32_t)  0.455196)
 
 #define EV_gc_b0    ((float32_t)  0.309927 * DSP.DSP_ctrl.gain_gc)
 #define EV_gc_b1    ((float32_t) -0.286035 * DSP.DSP_ctrl.gain_gc)
@@ -130,7 +139,7 @@ extern volatile float32_t   test_adc_real_value2;
 //#define D_max               ((float32_t) Vo_max / Vi_min)
 //#define D_min               ((float32_t) Vo_min / Vi_max)
 
-#define EV_ctrlMax          ((float32_t) 0.6 * SW_PRD)
+#define EV_ctrlMax          ((float32_t) duty_limit * SW_PRD)
 #define EV_ctrlMin          ((float32_t) -10.0)
 
 //CLA C Tasks defined in Cla1Tasks_C.cla

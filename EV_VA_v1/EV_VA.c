@@ -22,7 +22,8 @@ DSP_ADC_MON_DATA DSP_ADC_MON;
 #pragma DATA_SECTION(DSP_ADC_MON, "Cla1ToCpuMsgRAM");
 DSP_DATA DSP;
 
-volatile float32_t  duty_test = 0.5f;
+volatile float32_t  duty_limit = 0.1f;
+volatile float32_t  phase_shift_test = 1.0f;
 volatile float32_t test_dac_real_value = 0.0f;
 volatile float32_t test_dac;
 volatile float32_t test_adc;
@@ -41,19 +42,19 @@ void Init_variables(void)
 {
     // Command variables
     DSP.DSP_command.Calibration   = 1.0f;
-    DSP.DSP_command.SW_FREQ_SET   = 85.0f;
+    DSP.DSP_command.SW_FREQ_SET   = 40.0f;
     DSP.DSP_command.Po            = 100.0f;
     DSP.DSP_command.eff           = 0.95f;
     DSP.DSP_command.Vi            = 400.0f;
-    DSP.DSP_command.Vo            = 800.0f;
-    DSP.DSP_protection.Vo_OVP        = 850.0f;
+    DSP.DSP_command.Vo            = 50.0f;
+    DSP.DSP_protection.Vo_OVP        = 880.0f;
     DSP.DSP_protection.IL_OCP        = 32.0f; // 11 kW, 45.0f for 22 kW
     DSP.DSP_protection.Io_OCP        = 15.0f; // 11 kW, 30.0f for 22 kW
     DSP.DSP_protection.EV_OTP        = 85.0f;
 
     // Control variables
     memset((void*)&DSP.DSP_ctrl, 0, sizeof(DSP.DSP_ctrl));
-    DSP.DSP_ctrl.gain_gv    = 0.12;
+    DSP.DSP_ctrl.gain_gv    = 0.5;
     DSP.DSP_ctrl.gain_gc    = 0.01;
     DCL_resetDF13(&EV_gv);
     DCL_resetDF13(&EV_gc);
@@ -83,6 +84,10 @@ void Init_PWM(void)
 {
     // PHASE B
     EPWM_setTimeBasePeriod(EV_PWM_B_main_BASE, SW_PRD);
+    EPWM_setPhaseShift(EV_PWM_B_main_BASE, SW_PRD/2);
+    EPWM_setTimeBasePeriod(EV_PWM_B_snb_BASE, SW_PRD);
+
+    EPWM_setTimeBasePeriod(EV_PWM_A_main_BASE, SW_PRD);
 }
 
 void Init_GPIO(void)
@@ -161,7 +166,7 @@ void OTP_check(void)
         {
             DSP.DSP_protection.EV_BDG_OTP_flag = 1;
         }
-        // DSP 온도 OTP 추가 예정
+        // DSP �삩�룄 OTP 異붽� �삁�젙
     }
 }
 

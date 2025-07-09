@@ -2,7 +2,7 @@
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
  * @cliArgs --device "F28003x" --package "100PZ" --part "F28003x_100PZ" --context "system" --product "C2000WARE@5.00.00.00"
- * @versions {"tool":"1.18.0+3266"}
+ * @versions {"tool":"1.19.0+3426"}
  */
 
 /**
@@ -22,6 +22,8 @@ const dac1    = dac.addInstance();
 const dac2    = dac.addInstance();
 const epwm    = scripting.addModule("/driverlib/epwm.js", {}, false);
 const epwm1   = epwm.addInstance();
+const epwm2   = epwm.addInstance();
+const epwm3   = epwm.addInstance();
 const gpio    = scripting.addModule("/driverlib/gpio.js", {}, false);
 const gpio1   = gpio.addInstance();
 const gpio2   = gpio.addInstance();
@@ -186,15 +188,54 @@ epwm1.epwmTimebase_counterMode                                 = "EPWM_COUNTER_M
 epwm1.epwmEventTrigger_enableInterrupt                         = true;
 epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_LOW";
 epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_ZERO    = "EPWM_AQ_OUTPUT_TOGGLE";
-epwm1.epwmTimebase_syncInPulseSource                           = "EPWM_SYNC_IN_PULSE_SRC_DISABLE";
 epwm1.epwmEventTrigger_interruptSource                         = "EPWM_INT_TBCTR_ZERO";
 epwm1.epwmEventTrigger_EPWM_SOC_A_triggerSource                = "EPWM_SOC_TBCTR_U_CMPA";
 epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_B_ON_TIMEBASE_ZERO    = "EPWM_AQ_OUTPUT_TOGGLE";
 epwm1.epwmActionQualifier_EPWM_AQ_OUTPUT_B_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_LOW";
 epwm1.epwmEventTrigger_interruptEventCount                     = "1";
+epwm1.epwmTimebase_periodLink                                  = "EPWM_LINK_WITH_EPWM_1";
+epwm1.epwmTimebase_phaseEnable                                 = true;
+epwm1.epwmTimebase_phaseShift                                  = 1;
 epwm1.epwm.$assign                                             = "EPWM3";
-epwm1.epwm.epwm_aPin.$assign                                   = "GPIO14";
-epwm1.epwm.epwm_bPin.$assign                                   = "GPIO15";
+epwm1.epwm.epwm_aPin.$assignAllowConflicts                     = "GPIO14";
+epwm1.epwm.epwm_bPin.$assignAllowConflicts                     = "GPIO15";
+
+epwm2.$name                                                    = "EV_PWM_B_snb";
+epwm2.epwmTimebase_emulationMode                               = "EPWM_EMULATION_FREE_RUN";
+epwm2.epwmTimebase_hsClockDiv                                  = "EPWM_HSCLOCK_DIVIDER_1";
+epwm2.epwmTimebase_period                                      = 1411;
+epwm2.epwmTimebase_counterMode                                 = "EPWM_COUNTER_MODE_UP";
+epwm2.epwmTimebase_forceSyncPulse                              = true;
+epwm2.epwmTimebase_syncOutPulseMode                            = ["EPWM_SYNC_OUT_PULSE_ON_CNTR_ZERO"];
+epwm2.hrpwm_syncSource                                         = "HRPWM_PWMSYNC_SOURCE_ZERO";
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_ZERO    = "EPWM_AQ_OUTPUT_TOGGLE";
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_LOW";
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_B_ON_TIMEBASE_ZERO    = "EPWM_AQ_OUTPUT_TOGGLE";
+epwm2.epwmActionQualifier_EPWM_AQ_OUTPUT_B_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_LOW";
+epwm2.epwmTimebase_periodLink                                  = "EPWM_LINK_WITH_EPWM_3";
+epwm2.epwmTimebase_syncInPulseSource                           = "EPWM_SYNC_IN_PULSE_SRC_SYNCOUT_EPWM3";
+epwm2.epwm.$assign                                             = "EPWM4";
+epwm2.epwm.epwm_aPin.$assign                                   = "GPIO22";
+epwm2.epwm.epwm_bPin.$assign                                   = "GPIO7";
+
+epwm3.$name                                                    = "EV_PWM_A_main";
+epwm3.epwmTimebase_hsClockDiv                                  = "EPWM_HSCLOCK_DIVIDER_1";
+epwm3.epwmTimebase_emulationMode                               = "EPWM_EMULATION_FREE_RUN";
+epwm3.epwmTimebase_counterMode                                 = "EPWM_COUNTER_MODE_UP";
+epwm3.epwmTimebase_period                                      = 1411;
+epwm3.epwmTimebase_phaseEnable                                 = true;
+epwm3.epwmTimebase_phaseShift                                  = 706;
+epwm3.hrpwm_syncSource                                         = "HRPWM_PWMSYNC_SOURCE_ZERO";
+epwm3.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_ZERO    = "EPWM_AQ_OUTPUT_TOGGLE";
+epwm3.epwmActionQualifier_EPWM_AQ_OUTPUT_A_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_LOW";
+epwm3.epwmActionQualifier_EPWM_AQ_OUTPUT_B_ON_TIMEBASE_ZERO    = "EPWM_AQ_OUTPUT_TOGGLE";
+epwm3.epwmActionQualifier_EPWM_AQ_OUTPUT_B_ON_TIMEBASE_UP_CMPA = "EPWM_AQ_OUTPUT_LOW";
+epwm3.epwmTimebase_syncInPulseSource                           = "EPWM_SYNC_IN_PULSE_SRC_DISABLE";
+epwm3.epwmTimebase_syncOutPulseMode                            = ["EPWM_SYNC_OUT_PULSE_ON_CNTR_ZERO"];
+epwm3.epwmTimebase_forceSyncPulse                              = true;
+epwm3.epwm.$assign                                             = "EPWM1";
+epwm3.epwm.epwm_aPin.$assign                                   = "GPIO30";
+epwm3.epwm.epwm_bPin.$assign                                   = "GPIO31";
 
 gpio1.$name           = "EV_GD_EN_seed";
 gpio1.direction       = "GPIO_DIR_MODE_OUT";

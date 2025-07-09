@@ -51,6 +51,7 @@ void main(void)
 __interrupt void INT_EV_CTRL_CLA1_ISR(void)
 {
 //    GPIO_writePin(TEST1, 1);
+    GPIO_writePin(EV_GD_EN_seed, 1);
 
     //#############################################################################
     // DAC test
@@ -73,7 +74,11 @@ __interrupt void INT_EV_CTRL_CLA1_ISR(void)
     Control_loop();
 
     // Updating PWM
-    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, duty_test * SW_PRD);  // Open loop test
+//    EPWM_setPhaseShift(EV_PWM_B_main_BASE, SW_PRD * phase_shift_test);
+    EPWM_setCounterCompareValue(EV_PWM_A_main_BASE, EPWM_COUNTER_COMPARE_A, duty_limit * SW_PRD);  // Open loop test
+    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, duty_limit * SW_PRD);  // Open loop test
+//    EPWM_setCounterCompareValue(EV_PWM_B_snb_BASE, EPWM_COUNTER_COMPARE_A, duty_test * SW_PRD);  // Open loop test
+//    EPWM_setCounterCompareValue(EV_PWM_A_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
 //    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
 //    GPIO_togglePin(TEST1);
 //    GPIO_writePin(TEST1, 0);
