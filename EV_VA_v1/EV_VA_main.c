@@ -65,9 +65,9 @@ __interrupt void INT_EV_CTRL_CLA1_ISR(void)
 
     // Soft starter
     Softstart();
+//    DSP.DSP_ctrl.v_command = Vo_set;
 
     // Error calculation
-//    DSP.DSP_ctrl.v_command = Vo_set;
     DSP.DSP_ctrl.v_err = DSP.DSP_ctrl.v_command - DSP_ADC_RAW.Vo_sen;
 
     // Digital compensation
@@ -75,11 +75,11 @@ __interrupt void INT_EV_CTRL_CLA1_ISR(void)
 
     // Updating PWM
 //    EPWM_setPhaseShift(EV_PWM_B_main_BASE, SW_PRD * phase_shift_test);
-    EPWM_setCounterCompareValue(EV_PWM_A_main_BASE, EPWM_COUNTER_COMPARE_A, duty_limit * SW_PRD);  // Open loop test
-    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, duty_limit * SW_PRD);  // Open loop test
+//    EPWM_setCounterCompareValue(EV_PWM_A_main_BASE, EPWM_COUNTER_COMPARE_A, duty_limit * SW_PRD);  // Open loop test
+//    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, duty_limit * SW_PRD);  // Open loop test
 //    EPWM_setCounterCompareValue(EV_PWM_B_snb_BASE, EPWM_COUNTER_COMPARE_A, duty_test * SW_PRD);  // Open loop test
-//    EPWM_setCounterCompareValue(EV_PWM_A_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
-//    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
+    EPWM_setCounterCompareValue(EV_PWM_A_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
+    EPWM_setCounterCompareValue(EV_PWM_B_main_BASE, EPWM_COUNTER_COMPARE_A, DSP.DSP_ctrl.v_ctrl);  // Closed loop test
 //    GPIO_togglePin(TEST1);
 //    GPIO_writePin(TEST1, 0);
 

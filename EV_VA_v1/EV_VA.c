@@ -24,11 +24,12 @@ DSP_DATA DSP;
 
 volatile float32_t  duty_limit = 0.1f;
 volatile float32_t  phase_shift_test = 1.0f;
-volatile float32_t test_dac_real_value = 0.0f;
-volatile float32_t test_dac;
-volatile float32_t test_adc;
-volatile float32_t test_adc_real_value1;
-volatile float32_t test_adc_real_value2;
+volatile float32_t  V_cal = 1.05f;
+//volatile float32_t test_dac_real_value = 0.0f;
+//volatile float32_t test_dac;
+//volatile float32_t test_adc;
+//volatile float32_t test_adc_real_value1;
+//volatile float32_t test_adc_real_value2;
 
 // Time variables
 //volatile float32_t  DTP_SET = 0.15;
@@ -46,7 +47,7 @@ void Init_variables(void)
     DSP.DSP_command.Po            = 100.0f;
     DSP.DSP_command.eff           = 0.95f;
     DSP.DSP_command.Vi            = 400.0f;
-    DSP.DSP_command.Vo            = 50.0f;
+    DSP.DSP_command.Vo            = 850.0f;
     DSP.DSP_protection.Vo_OVP        = 880.0f;
     DSP.DSP_protection.IL_OCP        = 32.0f; // 11 kW, 45.0f for 22 kW
     DSP.DSP_protection.Io_OCP        = 15.0f; // 11 kW, 30.0f for 22 kW
@@ -54,8 +55,9 @@ void Init_variables(void)
 
     // Control variables
     memset((void*)&DSP.DSP_ctrl, 0, sizeof(DSP.DSP_ctrl));
-    DSP.DSP_ctrl.gain_gv    = 0.5;
-    DSP.DSP_ctrl.gain_gc    = 0.01;
+    //    DSP.DSP_ctrl.gain_gv    = 1.00f;
+    DSP.DSP_ctrl.gain_gv    = 0.12f;
+    DSP.DSP_ctrl.gain_gc    = 0.01f;
     DCL_resetDF13(&EV_gv);
     DCL_resetDF13(&EV_gc);
 }

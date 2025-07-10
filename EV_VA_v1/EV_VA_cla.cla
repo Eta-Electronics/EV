@@ -20,6 +20,7 @@ typedef struct
     float   LPF_IL1_i2, LPF_IL1_i1, LPF_IL1_i0, LPF_IL1_o2, LPF_IL1_o1, LPF_IL1_o0;
     float   LPF_IL2_i2, LPF_IL2_i1, LPF_IL2_i0, LPF_IL2_o2, LPF_IL2_o1, LPF_IL2_o0;
     float   LPF_Io_i2, LPF_Io_i1, LPF_Io_i0, LPF_Io_o2, LPF_Io_o1, LPF_Io_o0;
+    float   LPF_Vo_i2, LPF_Vo_i1, LPF_Vo_i0, LPF_Vo_o2, LPF_Vo_o1, LPF_Vo_o0;
 }DSP_ADC_LPF;
 
 DSP_ADC_LPF ADC_LPF;
