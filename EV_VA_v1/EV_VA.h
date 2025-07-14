@@ -31,11 +31,6 @@ void Control_loop(void);
 extern volatile float32_t   duty_limit;
 extern volatile float32_t   phase_shift_test;
 extern volatile float32_t   V_cal;
-//extern volatile float32_t   test_dac_real_value;
-//extern volatile float32_t   test_dac;
-//extern volatile float32_t   test_adc;
-//extern volatile float32_t   test_adc_real_value1;
-//extern volatile float32_t   test_adc_real_value2;
 
 // Time variables
 #define SW_FREQ             ((float32_t) DSP.DSP_command.SW_FREQ_SET * 1000)
@@ -114,21 +109,21 @@ extern volatile float32_t   V_cal;
 //#define EV_gv_a2    ((float32_t)   0.947317)
 //#define EV_gv_a3    ((float32_t)   0.586227)
 
+#define EV_gv_a1    ((float32_t) -0.397391)
+#define EV_gv_a2    ((float32_t)  0.942195)
+#define EV_gv_a3    ((float32_t)  0.455196)
 #define EV_gv_b0    ((float32_t)  2.816546 * DSP.DSP_ctrl.gain_gv)
 #define EV_gv_b1    ((float32_t) -2.613869 * DSP.DSP_ctrl.gain_gv)
 #define EV_gv_b2    ((float32_t) -2.813550 * DSP.DSP_ctrl.gain_gv)
 #define EV_gv_b3    ((float32_t)  2.616865 * DSP.DSP_ctrl.gain_gv)
-#define EV_gv_a1    ((float32_t) -0.397391)
-#define EV_gv_a2    ((float32_t)  0.942195)
-#define EV_gv_a3    ((float32_t)  0.455196)
 
+#define EV_gc_a1    ((float32_t)  1.107215)
+#define EV_gc_a2    ((float32_t)  0.762088)
+#define EV_gc_a3    ((float32_t) -0.869304)
 #define EV_gc_b0    ((float32_t)  0.309927 * DSP.DSP_ctrl.gain_gc)
 #define EV_gc_b1    ((float32_t) -0.286035 * DSP.DSP_ctrl.gain_gc)
 #define EV_gc_b2    ((float32_t) -0.309516 * DSP.DSP_ctrl.gain_gc)
 #define EV_gc_b3    ((float32_t)  0.286446 * DSP.DSP_ctrl.gain_gc)
-#define EV_gc_a1    ((float32_t)  1.107215)
-#define EV_gc_a2    ((float32_t)  0.762088)
-#define EV_gc_a3    ((float32_t) -0.869304)
 
 #define EV_LFP_b0   ((float32_t)  0.000010)
 #define EV_LFP_b1   ((float32_t)  0.000020)

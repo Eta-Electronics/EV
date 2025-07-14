@@ -25,11 +25,6 @@ DSP_DATA DSP;
 volatile float32_t  duty_limit = 0.1f;
 volatile float32_t  phase_shift_test = 1.0f;
 volatile float32_t  V_cal = 1.05f;
-//volatile float32_t test_dac_real_value = 0.0f;
-//volatile float32_t test_dac;
-//volatile float32_t test_adc;
-//volatile float32_t test_adc_real_value1;
-//volatile float32_t test_adc_real_value2;
 
 // Time variables
 //volatile float32_t  DTP_SET = 0.15;
